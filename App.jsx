@@ -1,16 +1,26 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer, useFocusEffect } from '@react-navigation/native';
+import { BackHandler } from 'react-native';
 import React, { useState, useEffect } from 'react';
 
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Location from 'expo-location';
+import { Ionicons } from '@expo/vector-icons';
 
 import * as NewAlert from "./components/Common/Alert.jsx";
 import NetInfo from '@react-native-community/netinfo';
-import CommunicationController from './CommunicationController';
-import { LocationContext } from './models/LocationContext';
-import { UserContext } from './models/UserContext';
+import CommunicationController from './CommunicationController.js';
+import { LocationContext } from './models/LocationContext.jsx';
+import { UserContext } from './models/UserContext.jsx';
 
+import MapScreen from './components/schermate/Map.jsx';
+import RankingScreen from './components/schermate/Ranking.jsx';
+import ProfileScreen from './components/schermate/Profile.jsx';
+
+const Tab = createBottomTabNavigator();
 
 export default function App() {
   const [location, setCurrentLocation] = useState(null);
@@ -44,7 +54,7 @@ export default function App() {
       console.log('Can use location');
       Location.watchPositionAsync({
         distanceInterval: 0,
-        timeInterval: 5000,
+        timeInterval: 10000,
         accuracy: Location.Accuracy.Highest
       },
         (newlocation) => {
@@ -55,16 +65,16 @@ export default function App() {
 
     } else {
       setCanUseLocation(false);
-      console.log('Cannot use location');
+      console.log('Cannot use location1');
       NewAlert.createAlert("Permessi necessari", "Per utilizzare l'app è necessario concedere i permessi di localizzazione", [{ text: "Chiudi", onPress: () => { BackHandler.exitApp(); } }]);
     }
   }
 
   useEffect(() => {
     console.log('Permessi')
-    if (!useLocation) {
+    /*if (!useLocation) {
       NewAlert.createAlert("Permessi necessari", "Per utilizzare l'app è necessario concedere i permessi di localizzazione", [{ text: "Chiudi", onPress: () => { BackHandler.exitApp(); } }]);
-    }
+    }*/
     NetInfo.fetch().then(state => {
       console.log('Internet raggingibile', state.isInternetReachable);
       if (!state.isInternetReachable) {
@@ -73,28 +83,68 @@ export default function App() {
     });
   });
 
-  return (//todo
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+  return (
+    <LocationContext.Provider value={{ location, setCurrentLocation }}>
+      <UserContext.Provider value={{ user, setCurrentUser }}>
+        <SafeAreaProvider>
+          <NavigationContainer>
+            <Tab.Navigator initialRouteName="Mappa" style={{ backgroundColor: '#88ff00', flex: 1 }}
+              screenOptions={({ route }) => ({
+                tabBarIcon: ({ focused, color, size }) => {
+                  let iconName;
+
+                  switch (route.name) {
+                    case 'Classifica':
+                      iconName = focused ? 'trophy' : 'trophy-outline';
+                      break;
+                    case 'Mappa':
+                      iconName = focused ? 'map' : 'map-outline';
+                      break;
+                    case 'Profilo':
+                      iconName = focused ? 'person' : 'person-outline';
+                      break;
+                  }
+                  // You can return any component that you like here!
+                  return <Ionicons name={iconName} size={size} color={color} />;
+                },
+                tabBarActiveTintColor: '#8E8DBE',
+                inactiveTintColor: 'gray',
+                tabBarStyle: {
+                  paddingBottom: 10,
+                  paddingTop: 5,
+                  height: 60,
+                },
+                tabBarLabelStyle: {
+                  fontSize: 12,
+                  fontWeight: 'bold'
+                },
+              })}
+            >
+              <Tab.Screen name="Classifica" initialParams={{ user: user }} component={RankingScreen} options={{ title: 'Classifica', headerShown: false }} />
+              <Tab.Screen name="Mappa" initialParams={{ user: user }} component={MapScreen} options={{ headerShown: false }} />
+              <Tab.Screen name="Profilo" initialParams={{ user: user }} component={ProfileScreen} options={{ headerShown: false }} />
+            </Tab.Navigator>
+          </NavigationContainer>
+        </SafeAreaProvider>
+      </UserContext.Provider>
+    </LocationContext.Provider>
   );
 }
 
 async function getSID() {
   const sid = await AsyncStorage.getItem('sid');
   const uid = await AsyncStorage.getItem('uid');
-  
+
   console.log('SID:', sid, ' UID:', uid);
 
-  if(sid != null && uid != null) {
+  if (sid != null && uid != null) {
     return { sid: sid, uid: uid };
   } else {
     console.log('No SID');
-    let data = await register(); 
+    let data = await register();
     await AsyncStorage.setItem('sid', data.sid);
-    await AsyncStorage.setItem('uid', data.uid);
-    return { sid: sid, uid: uid };
+    await AsyncStorage.setItem('uid', String(data.uid));
+    return { sid: data.sid, uid: data.uid };
   }
 }
 
