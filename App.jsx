@@ -12,7 +12,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import * as NewAlert from "./components/Common/Alert.jsx";
 import NetInfo from '@react-native-community/netinfo';
-import CommunicationController from './CommunicationController.js';
+import CommunicationController from './CommunicationController';
 import { LocationContext } from './models/LocationContext.jsx';
 import { UserContext } from './models/UserContext.jsx';
 
