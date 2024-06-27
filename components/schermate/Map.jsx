@@ -1,12 +1,28 @@
-import React from 'react';
-import { View, Text } from 'react-native';
+import React, { useState, useEffect, useContext } from 'react';
+import { Text, Button, View, StyleSheet, TouchableOpacity } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useFocusEffect } from '@react-navigation/native';
+import MapView, { Circle, Marker } from 'react-native-maps';
 
-const Map = () => {
+import { LocationContext } from '../../models/LocationContext';
+import { UserContext } from '../../models/UserContext';
+
+import Player from './Player.jsx';
+
+const Stack = createNativeStackNavigator();
+
+export default function Map({ navigation }) {
     return (
-        <View>
-            <Text>Map Component</Text>
-        </View>
-    );
-};
+        <Stack.Navigator initialRouteName="Map" >
 
-export default Map;
+            <Stack.Screen name="Player" component={Player} options={{ title: '' }} />
+        </Stack.Navigator>
+    );
+}
+
+/*
+<Stack.Screen name="Map" component={ShowMap} options={{ headerShown: false }} />
+            <Stack.Screen name="NearList" component={NearListScreen} options={{ title: 'Oggetti vicini' }} />
+            <Stack.Screen name="VObj" component={VirtualObjectScreen} options={{ title: '' }} />
+            */

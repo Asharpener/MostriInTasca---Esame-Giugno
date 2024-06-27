@@ -1,13 +1,14 @@
-import { Text, View, FlatList } from 'react-native';
-import { RankElem } from './RankElem';
-import { StyleSheet } from 'react-native';
-
+// ../sezioni/Rank.jsx or ../sezioni/Rank.js
+import { FlatList } from 'react-native';
+import { RankRow } from './RankRow';
+import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
 
 export function RankList(props) {
 
     return (
         <FlatList data={props.rank}
-            renderItem={({ item, index }) => <RankElem player={item} index={index} style={rank.nlRow}></RankElem>}
+            renderItem={({ item, index }) => <RankRow player={item} index={index} style={rank.rankRow}></RankRow>}
             keyExtractor={item => item.uid} />
     );
 }

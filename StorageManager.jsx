@@ -10,9 +10,7 @@ export default class StorageManager {
         this.createTableOggetti();
     }
 
-    /** 
-     * UTENTI
-     */
+    //utenti
 
     async createTableUtenti() {
         const querySQL = "CREATE TABLE IF NOT EXISTS utenti (uid INTEGER PRIMARY KEY, name VARCHAR(100), picture TEXT, profileversion INTEGER)";
@@ -56,9 +54,7 @@ export default class StorageManager {
         return result[0].rows;
     }
 
-    /**
-     * OGGETTI
-     */
+    //oggetti
 
     // Table create
     async createTableOggetti() {

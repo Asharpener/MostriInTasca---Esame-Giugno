@@ -5,11 +5,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useFocusEffect } from '@react-navigation/native';
 import { StyleSheet } from 'react-native';
 
-//import { RankList } from '../elements/Rank';
+import { RankList }  from '../sezioni/Rank';
 import * as NewAlert from '../Common/Alert.jsx';
-
-// Screens
-import PlayerScreen from './Player.jsx';
 
 
 // Context
@@ -17,6 +14,11 @@ import { UserContext } from '../../models/UserContext';
 
 // Services
 import CommunicationController from "../../CommunicationController";
+import Player from './Player.jsx';
+
+console.log('MOSTRORankList:', RankList); // Debugging statement
+console.log('MOSTROPlayer:', Player); // Debugging statement
+console.log('MOSTRONewAlert:', NewAlert); // Debugging statement
 
 const Stack = createNativeStackNavigator();
 
@@ -24,7 +26,7 @@ export default function Ranking() {
     return(
         <Stack.Navigator initialRouteName='Rank'>
             <Stack.Screen name="Rank" component={ShowRank} options={{ headerShown: false }} />
-            <Stack.Screen name="Player" component={PlayerScreen} options={{ title: 'Giocatore' }} />
+            <Stack.Screen name="Player" component={Player} options={{ title: 'Giocatore' }} />
         </Stack.Navigator>
     );
 }
@@ -46,6 +48,7 @@ function ShowRank() {
         }, [user.sid])
     );
 
+    console.log("showrank till here")
     return (
         <SafeAreaView style={{ flex: 1 }}>
             {isLoading ?
