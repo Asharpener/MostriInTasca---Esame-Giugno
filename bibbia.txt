@@ -1,0 +1,22 @@
+segnare cose.:
+npm install expo@latest / version
+npx expo install --fix // --> librerie nella versione che ci si aspetta 
+
+comandi expo vecchio:
+expo init nomeApp 
+npm start
+
+comandi expo nuovo:
+npx create-expo-app nomeApp
+npx expo start
+
+se starti con comando nuovo, probabilmente non funziona il comando vecchio 
+
+se app non carica:
+riavviare emulatore e server
+npm install
+riprovare
+expo start -c 
+riprovare
+
+altrimenti kaput

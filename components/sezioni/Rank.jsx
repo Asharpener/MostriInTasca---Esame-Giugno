@@ -1,5 +1,6 @@
 import { Text, View, FlatList } from 'react-native';
 import { RankElem } from './RankElem';
+import { StyleSheet } from 'react-native';
 
 
 export function RankList(props) {

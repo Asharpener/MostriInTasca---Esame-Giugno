@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { Text, View, Image, TouchableOpacity } from 'react-native';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { StyleSheet } from 'react-native';
 
 // Context
 import { UserContext } from '../../models/UserContext';
