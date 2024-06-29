@@ -18,7 +18,6 @@ import Player from './Player.jsx';
 
 console.log('MOSTRORankList:', RankList); // Debugging statement
 console.log('MOSTROPlayer:', Player); // Debugging statement
-console.log('MOSTRONewAlert:', NewAlert); // Debugging statement
 
 const Stack = createNativeStackNavigator();
 
