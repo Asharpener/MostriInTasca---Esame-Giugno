@@ -20,16 +20,11 @@ export default function Map({ navigation }) {
         <Stack.Navigator initialRouteName="Map" >
             <Stack.Screen name="Map" component={ShowMap} options={{ headerShown: false }} />
             <Stack.Screen name="Player" component={Player} options={{ title: '' }} />
+            <Stack.Screen name="NearList" component={NearListScreen} options={{ title: 'Oggetti vicini' }} />
+            <Stack.Screen name="VObj" component={VirtualObjectScreen} options={{ title: '' }} />
         </Stack.Navigator>
     );
 }
-
-
-/*
-    
-            <Stack.Screen name="NearList" component={NearListScreen} options={{ title: 'Oggetti vicini' }} />
-            <Stack.Screen name="VObj" component={VirtualObjectScreen} options={{ title: '' }} />
- */
 
 
 function ShowMap({navigation}) {
@@ -84,8 +79,37 @@ function ShowMap({navigation}) {
                     <Marker coordinate={location.coords} />
             
                 </View>
-}
+                }
+
+                {vobjnearlist != [] && vobjnearlist != undefined ? vobjnearlist.map((item, index) => {
+                    // calcola la distanza dalla posizione attuale location e l'oggetto item
+                    let distance =  MarkerElement.getDistanceMeters(location.coords.latitude, location.coords.longitude, item.lat, item.lon);
+                    // se la distanza è minore di 100 metri, visualizza l'oggetto
+                    if (distance > 100) {
+                        return null;
+                    }
+                    return (
+                        <MarkerElement.Virtualobj key={index} object={item} sid={user.sid} />
+                    );
+                }) : {}}
+
+                {playernearlist != [] && playernearlist != undefined ? playernearlist.map((item, index) => {
+                    // calcola la distanza dalla posizione attuale location e l'oggetto item
+                    let distance =  MarkerElement.getDistanceMeters(location.coords.latitude, location.coords.longitude, item.lat, item.lon);
+                    // se la distanza è minore di 100 metri, visualizza l'oggetto
+                    if (distance > 100 || item.positionshare == false) {
+                        return null;
+                    } 
+                    return (
+                        <MarkerElement.Player key={index} player={item} sid={user.sid} />
+                    );
+                }) : {}}
             </MapView>
+            <View style={mapscreen.btnCont}>
+                <TouchableOpacity style={[def.button1, mapscreen.nearobjbtn]} onPress={() => navigation.navigate('NearList')}>
+                    <Text style={def.button1Text}>Oggetti vicini</Text>
+                </TouchableOpacity>
+            </View>
         </SafeAreaView>
     );
 
