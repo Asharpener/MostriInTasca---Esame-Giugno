@@ -58,7 +58,7 @@ export default function App() {
         accuracy: Location.Accuracy.Highest
       },
         (newlocation) => {
-          console.log('Location:', newlocation);
+          console.log('Location:', newlocation.coords.latitude, newlocation.coords.longitude);
           setCurrentLocation(newlocation);
         }
       );
