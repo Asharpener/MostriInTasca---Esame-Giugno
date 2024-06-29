@@ -60,7 +60,7 @@ async function loadPlayerDetails(sid, rankPlayerInfo) {
     const storageManager = new StorageManager();
     let user = await storageManager.getUserByID(rankPlayerInfo.uid)
         .catch((error) => {
-            console.log("Nessun uid trovato per " + playerInfo.uid + " - " + error)
+            console.log("Nessun uid trovato per " + rankPlayerInfo.uid + " - " + error)
         });
 
     if (user.length == 0) { //se utente non nel db
@@ -90,7 +90,7 @@ async function loadPlayerDetails(sid, rankPlayerInfo) {
                     return false;
                 });
 
-            let row = await storageManager.insertUser(response.uid, response.name, response.picture, response.profileversion);
+            let row = await storageManager.updateUser(response.uid, response.name, response.picture, response.profileversion);
 
             if (row[0].error != null) {
                 console.log(row[0].error);

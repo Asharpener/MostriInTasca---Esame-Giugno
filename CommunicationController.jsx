@@ -45,7 +45,7 @@ export default class CommunicationController {
         return await CommunicationController.genericRequest(endPoint, verb, queryParams, bodyParams);
     }
     
-    static async getUserById(id, sid) {
+    static async getUserById(sid, id) {
         const endPoint = "users/"+id;
         const verb = 'GET';
         const queryParams = { sid: sid};
@@ -54,11 +54,22 @@ export default class CommunicationController {
     }
 
     static async patchUser(id, sid, name, picture, positionshare) {
-        const endPoint = "users/"+id;
+        const endPoint = "users/" + id;
         const verb = 'PATCH';
         const queryParams = {};
-        const bodyParams = {sid: sid, name: name, picture: picture, positionshare: positionshare};  //check se sono uguali (se hai voglia o tempo)
+        // solo se i parametri sono diversi da null, vengono aggiunti al body
+        const bodyParams = { sid: sid };
+        if (name != null) {
+            bodyParams.name = name;
+        }
+        if (image != null) {
+            bodyParams.picture = image;
+        }
+        if (positionshare != null) {
+            bodyParams.positionshare = positionshare;
+        }
         return await CommunicationController.genericRequest(endPoint, verb, queryParams, bodyParams);
+    
     }
 
     static async getRanking(sid) {
@@ -69,7 +80,7 @@ export default class CommunicationController {
         return await CommunicationController.genericRequest(endPoint, verb, queryParams, bodyParams);
     }
 
-    static async getObjectById(id, sid) {
+    static async getObjectById(sid, id) {
         const endPoint = "objects/"+id;
         const verb = 'GET';
         const queryParams = { sid: sid };
@@ -77,7 +88,7 @@ export default class CommunicationController {
         return await CommunicationController.genericRequest(endPoint, verb, queryParams, bodyParams);
     }
 
-    static async activateObject(id, sid) {
+    static async activateObject(sid, id) {
         const endPoint = "objects/"+id+"/activate";	
         const verb = 'POST';
         const queryParams = {};
@@ -85,11 +96,11 @@ export default class CommunicationController {
         return await CommunicationController.genericRequest(endPoint, verb, queryParams, bodyParams);
     }
     
-    static async getObjects(id, sid) {
-        const endPoint = "objects/"+id;
-        const verb = 'POST';
-        const queryParams = {};
-        const bodyParams = {sid: sid};
+    static async getObjects(sid, lat, lon) {
+        const endPoint = "objects/";
+        const verb = 'GET';
+        const queryParams = { sid: sid, lat: lat, lon: lon };
+        const bodyParams = {};
         return await CommunicationController.genericRequest(endPoint, verb, queryParams, bodyParams);
     }
 
