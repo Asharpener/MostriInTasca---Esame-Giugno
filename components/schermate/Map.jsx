@@ -9,6 +9,7 @@ import { LocationContext } from '../../models/LocationContext';
 import { UserContext } from '../../models/UserContext';
 
 import Player from './Player.jsx';
+import VirtualObject from './VirtualObject.jsx';
 import * as MarkerElement from '../sezioni/Marker.jsx';
 
 import * as NearListRepo from '../RepoAssist/NearListRepo.jsx';
@@ -20,6 +21,7 @@ export default function Map({ navigation }) {
         <Stack.Navigator initialRouteName="Map" >
             <Stack.Screen name="Map" component={ShowMap} options={{ headerShown: false }} />
             <Stack.Screen name="Player" component={Player} options={{ title: '' }} />
+            <Stack.Screen name="VObj" component={VirtualObject} options={{ title: '' }} />
             
         </Stack.Navigator>
     );

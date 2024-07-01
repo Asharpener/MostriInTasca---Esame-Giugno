@@ -74,7 +74,7 @@ function ObjectAction(props) {
                             alertText = "Hai perso tutti i tuoi punti esperienza e gli artefatti";
                         } else {
                             alertMex = "Hai vinto!";
-                            alertText = "Ora hai " + action.exp + " punti esperienza e " + action.life + " punti vita";
+                            alertText = "Ora hai " + action.experience + " punti esperienza e " + action.life + " punti vita";
                         }
                     }
                     Alert.createAlert(alertMex, alertText, [{
@@ -97,7 +97,7 @@ function ObjectAction(props) {
                         alertText = "Si è verificato un errore. Verifica la tua connessione";
                     } else {
                         alertMex = "Caramella mangiata!";
-                        alertText = "Ora hai " + action.life + " punti vita e " + action.exp + " punti esperienza";
+                        alertText = "Ora hai " + action.life + " punti vita e " + action.experience + " punti esperienza";
                     }
                     Alert.createAlert(alertMex, alertText, [{
                         text: "OK", onPress: () => {
@@ -120,7 +120,7 @@ function ObjectAction(props) {
                         alertText = "Si è verificato un errore. Verifica la tua connessione";
                     } else {
                         alertMex = "Armatura equipaggiata!";
-                        alertText = "Ora hai " + action.life + " punti vita!" + action.exp + " punti esperienza";
+                        alertText = "Ora hai " + action.life + " punti vita!" + action.experience + " punti esperienza";
                     }
                     Alert.createAlert(alertMex, alertText, [{
                         text: "OK", onPress: () => {
@@ -143,7 +143,7 @@ function ObjectAction(props) {
                         alertText = "Si è verificato un errore. Verifica la tua connessione";
                     } else {
                         alertMex = "Arma equipaggiata!";
-                        alertText = "Ora hai " + action.life + " punti vita!" + action.exp + " punti esperienza";
+                        alertText = "Ora hai " + action.life + " punti vita!" + action.experience + " punti esperienza";
                     }
                     Alert.createAlert(alertMex, alertText, [{
                         text: "OK", onPress: () => {
@@ -166,7 +166,7 @@ function ObjectAction(props) {
                         alertText = "Si è verificato un errore. Verifica la tua connessione";
                     } else {
                         alertMex = "Amuleto equipaggiato!";
-                        alertText = "Ora hai " + action.life + " punti vita!" + action.exp + " punti esperienza";
+                        alertText = "Ora hai " + action.life + " punti vita!" + action.experience + " punti esperienza";
                     }
                     Alert.createAlert(alertMex, alertText, [{
                         text: "OK", onPress: () => {
