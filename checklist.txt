@@ -1,11 +1,7 @@
 checklist pagine mancanti circa
-
-marker ->TBD
+ 
 nearlist ->TBD
 nearlistRow ->TBD
-
-nearlistrepo
-vobjectrepo   \  funzioni per alleggerire il codice nei component
 
 mapscreen -> dovrebbe essere completa
 nearlistscreen ->TBD
@@ -13,8 +9,6 @@ playerscreen -> esiste, da sistemare
 profilescreen ->TBD
 virtualobjectscreen ->TBD
 
-recuperare le immagini --> proviamo a rubarle da android
-
 styles da copiare in ogni pagine ove necessario
 
-vedere meglio storagemanager
+vedere meglio storagemanager e repo

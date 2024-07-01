@@ -20,3 +20,7 @@ expo start -c
 riprovare
 
 altrimenti kaput
+
+
+nearlistrepo
+vobjectrepo   \  funzioni per alleggerire il codice nei component
