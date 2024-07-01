@@ -34,13 +34,13 @@ export function RankRow(props) {
                 <View style={rank.rankElemPositionCont}>
                     <Text style={rank.position}>{position}°</Text>
                 </View> 
-                {/* <View style={rank.rankElemImgCont}>
+                { <View style={rank.rankElemImgCont}>
                     {player.picture == null || player.picture == "" ? (
-                        <Image source={require('../../assets/images/no-user-icon.png')} style={rank.playerPic} />
+                        <Image source={require('../../assets/images/default_user_propic.png')} style={rank.playerPic} />
                     ) : (
                         <Image source={{ uri: 'data:image/jpeg;base64,' + player.picture }} style={rank.playerPic} />
                     )}
-                </View> */}
+                </View> }
                 
                 <View style={rank.rankElemUsernameCont}>
                     {player.name == null ?

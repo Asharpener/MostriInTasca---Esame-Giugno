@@ -9,7 +9,7 @@ import { LocationContext } from '../../models/LocationContext';
 import { UserContext } from '../../models/UserContext';
 
 import Player from './Player.jsx';
-//import MarkerElement from '../sezioni/Marker.jsx';
+import * as MarkerElement from '../sezioni/Marker.jsx';
 
 import * as NearListRepo from '../RepoAssist/NearListRepo.jsx';
 
@@ -20,12 +20,12 @@ export default function Map({ navigation }) {
         <Stack.Navigator initialRouteName="Map" >
             <Stack.Screen name="Map" component={ShowMap} options={{ headerShown: false }} />
             <Stack.Screen name="Player" component={Player} options={{ title: '' }} />
-            <Stack.Screen name="NearList" component={NearListScreen} options={{ title: 'Oggetti vicini' }} />
-            <Stack.Screen name="VObj" component={VirtualObjectScreen} options={{ title: '' }} />
+            
         </Stack.Navigator>
     );
 }
-
+/*<Stack.Screen name="NearList" component={NearList} options={{ title: 'Oggetti vicini' }} />
+            <Stack.Screen name="VObj" component={VirtualObject} options={{ title: '' }} />*/
 
 function ShowMap({navigation}) {
     const { location } = useContext(LocationContext);
@@ -57,8 +57,8 @@ function ShowMap({navigation}) {
                 setRegion({
                     latitude: location.coords.latitude,
                     longitude: location.coords.longitude,
-                    latitudeDelta: 0.01,
-                    longitudeDelta: 0.01,
+                    latitudeDelta: 0.0023,
+                    longitudeDelta: 0.0023,
                 });
             }
         }, [location, user])
@@ -66,7 +66,8 @@ function ShowMap({navigation}) {
 
     return (
         <SafeAreaView style={{flex:1, justifyContent: 'flex-end'}}>
-            <MapView style ={mapscreen.map} region={region} showMyLocationButton onRegionCHange={this.handleRegionChanged}>
+            <MapView style ={mapscreen.map} region={region} showsUserLocation={true} showsMyLocationButton={true}
+          showsCompass={true} onRegionCHange={this.handleRegionChanged}>
 
                 {location != null && 
                 <View>
@@ -83,7 +84,7 @@ function ShowMap({navigation}) {
 
                 {vobjnearlist != [] && vobjnearlist != undefined ? vobjnearlist.map((item, index) => {
                     // calcola la distanza dalla posizione attuale location e l'oggetto item
-                    let distance =  MarkerElement.getDistanceMeters(location.coords.latitude, location.coords.longitude, item.lat, item.lon);
+                    let distance =  MarkerElement.getDistanceInMeters(location.coords.latitude, location.coords.longitude, item.lat, item.lon);
                     // se la distanza è minore di 100 metri, visualizza l'oggetto
                     if (distance > 100) {
                         return null;
@@ -95,7 +96,7 @@ function ShowMap({navigation}) {
 
                 {playernearlist != [] && playernearlist != undefined ? playernearlist.map((item, index) => {
                     // calcola la distanza dalla posizione attuale location e l'oggetto item
-                    let distance =  MarkerElement.getDistanceMeters(location.coords.latitude, location.coords.longitude, item.lat, item.lon);
+                    let distance =  MarkerElement.getDistanceInMeters(location.coords.latitude, location.coords.longitude, item.lat, item.lon);
                     // se la distanza è minore di 100 metri, visualizza l'oggetto
                     if (distance > 100 || item.positionshare == false) {
                         return null;

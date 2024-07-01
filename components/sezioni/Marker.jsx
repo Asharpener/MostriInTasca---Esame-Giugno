@@ -1,4 +1,4 @@
-import { View, Image } from 'react-native';
+import { View, Image, StyleSheet } from 'react-native';
 import React, { useState } from 'react';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import MapView, { Marker } from 'react-native-maps';
@@ -8,14 +8,14 @@ import * as NearListRepo from '../RepoAssist/NearListRepo.jsx';
 export function Virtualobj(props) {
     const navigation = useNavigation();
     const [object, setObject] = useState(props.object);
-    const n1ObjectInfo = props.object;
+    const nlObjectInfo = props.object;
     const sid = props.sid;
     const distance = props.distance;
 
     useFocusEffect(
         React.useCallback(() =>{
-            (async () => {console.log("Marker - " + n1ObjectInfo.id);
-                let thisobj = await NearListRepo.loadVObjDetails(sid, n1ObjectInfo);
+            (async () => {console.log("Marker - " + nlObjectInfo.id);
+                let thisobj = await NearListRepo.loadVObjDetails(sid, nlObjectInfo);
                 setObject(thisobj)
             })();
         }, [sid])
@@ -105,7 +105,7 @@ function ObjectImage(props) {
                 break;
 
             default:
-                pic = require("../../assets/images/default_user.png");
+                pic = require("../../assets/images/default_player.png");
                 break;
         }
         return (

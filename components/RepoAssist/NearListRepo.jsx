@@ -70,7 +70,7 @@ export async function loadPlayerDetails(sid, playerInfo) {
 
     if (player.length == 0) {
         // if not, get the player from the server and insert it in the db
-        const response = await CommunicationController.getUser(sid, playerInfo.uid)
+        const response = await CommunicationController.getUserById(sid, playerInfo.uid)
             .catch((error) => {
                 console.log("NearListRepo - " + error);
             });
@@ -91,7 +91,7 @@ export async function loadPlayerDetails(sid, playerInfo) {
         if (user.profileversion != playerInfo.profileversion) {
             // if the profile version is different from the one in the db, get the user from the server and update it in the db
             
-            const response = await CommunicationController.getUser(sid, playerInfo.uid)
+            const response = await CommunicationController.getUserById(sid, playerInfo.uid)
             .catch((error) => {
                 console.log("RankElem - " + error);
             });

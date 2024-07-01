@@ -5,7 +5,6 @@ nearlistRow ->TBD
 
 mapscreen -> dovrebbe essere completa
 nearlistscreen ->TBD
-playerscreen -> esiste, da sistemare
 profilescreen ->TBD
 virtualobjectscreen ->TBD
 
