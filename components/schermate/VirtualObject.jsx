@@ -57,9 +57,160 @@ function ObjectAction(props) {
     let text = "";
     let btn = "";
     let event = null;
+    switch (obj.type) {
+        case "monster":
+            text = "Combatti contro questo mostro per ottenere punti esperienza. Potresti perdere fino a " + obj.level * 2 + " punti vita";
+            btn = "Combatti!";
+            event = () => {
+                (async () => {
+                    let action = await activation(user.sid, obj.id);
+                    console.log(action.died);
+                    if (action == false) {
+                        alertMex = "Errore";
+                        alertText = "Si è verificato un errore. Verifica la tua connessione";
+                    } else {
+                        if (action.died) {
+                            alertMex = "Hai perso!";
+                            alertText = "Hai perso tutti i tuoi punti esperienza e gli artefatti";
+                        } else {
+                            alertMex = "Hai vinto!";
+                            alertText = "Ora hai " + action.exp + " punti esperienza e " + action.life + " punti vita";
+                        }
+                    }
+                    Alert.createAlert(alertMex, alertText, [{
+                        text: "OK", onPress: () => {
+                            navigation.navigate('Map');
+                        }
+                    }]);
+                })();
+            };
+            break;
+        case "candy":
+            text = "Mangia questa caramella per acquisire punti vita.";
+            btn = "Mangia";
+            event = () => {
+                (async () => {
+                    let action = await activation(user.sid, obj.id);
+                    console.log(action.died);
+                    if (action == false) {
+                        alertMex = "Errore";
+                        alertText = "Si è verificato un errore. Verifica la tua connessione";
+                    } else {
+                        alertMex = "Caramella mangiata!";
+                        alertText = "Ora hai " + action.life + " punti vita e " + action.exp + " punti esperienza";
+                    }
+                    Alert.createAlert(alertMex, alertText, [{
+                        text: "OK", onPress: () => {
+                            navigation.navigate('Map');
+                        }
+                    }]);
+
+                })();
+            };
+            break;
+        case "armor":
+            text = "Equipaggiati con un'armatura. Con questa armatura aumenterai il numero massimo di punti vita a " + (100 + obj.level) + ".";
+            btn = "Equipaggia";
+            event = () => {
+                (async () => {
+                    let action = await activation(user.sid, obj.id);
+                    console.log(action.died);
+                    if (action == false) {
+                        alertMex = "Errore";
+                        alertText = "Si è verificato un errore. Verifica la tua connessione";
+                    } else {
+                        alertMex = "Armatura equipaggiata!";
+                        alertText = "Ora hai " + action.life + " punti vita!" + action.exp + " punti esperienza";
+                    }
+                    Alert.createAlert(alertMex, alertText, [{
+                        text: "OK", onPress: () => {
+                            navigation.navigate('Map');
+                        }
+                    }]);
+
+                })();
+            };
+            break;
+        case "weapon":
+            text = "Equipaggiati con un'arma.Con quest'arma potrai subire il " + obj.level + "% in meno di danni.";
+            btn = "Equipaggia";
+            event = () => {
+                (async () => {
+                    let action = await activation(user.sid, obj.id);
+                    console.log(action.died);
+                    if (action == false) {
+                        alertMex = "Errore";
+                        alertText = "Si è verificato un errore. Verifica la tua connessione";
+                    } else {
+                        alertMex = "Arma equipaggiata!";
+                        alertText = "Ora hai " + action.life + " punti vita!" + action.exp + " punti esperienza";
+                    }
+                    Alert.createAlert(alertMex, alertText, [{
+                        text: "OK", onPress: () => {
+                            navigation.navigate('Map');
+                        }
+                    }]);
+
+                })();
+            };
+            break;
+        case "amulet":
+            text = "Equipaggiati con un amuleto. Con questa amuleto aumenterai la distanza di visione sulla mappa fino a " + (100 + obj.level) + " metri.";
+            btn = "Equipaggia";
+            event = () => {
+                (async () => {
+                    let action = await activation(user.sid, obj.id);
+                    console.log(action.died);
+                    if (action == false) {
+                        alertMex = "Errore";
+                        alertText = "Si è verificato un errore. Verifica la tua connessione";
+                    } else {
+                        alertMex = "Amuleto equipaggiato!";
+                        alertText = "Ora hai " + action.life + " punti vita!" + action.exp + " punti esperienza";
+                    }
+                    Alert.createAlert(alertMex, alertText, [{
+                        text: "OK", onPress: () => {
+                            navigation.navigate('Map');
+                        }
+                    }]);
+
+                })();
+            };
+            break;
+        default:
+            text = "Attiva questo oggetto per sfruttare le sue potenzialità."
+            btn = "Attiva";
+            event = () => {
+                activation(user.sid, obj.id);
+                Alert.createAlert("Oggetto attivato", "Hai attivato correttamente questo oggetto.", [{
+                    text: "Ok", onPress: () => {
+                        navigation.navigate('Map');
+                    }
+                }], false);
+            };
+            break;
 
 
+    }
 
+    //se la distanza è maggiore di 100 metri, disabilita il bottone
+    if (getDistanceInMeters(location.coords.latitude, location.coords.longitude, props.item.lat, props.item.lon) > 100) {
+        return (
+            <View>
+                <Text style={objscreen.objdesc}>{text}</Text>
+                <Text>Questo oggetto è troppo lontano. Avvicinati per attivaarlo</Text>
+            </View>
+        );
+    } else {
+        return (
+            <View>
+                <Text style={objscreen.objdesc}>{text}</Text>
+                <TouchableOpacity style={def.button1} onPress={event}>
+                    <Text style={def.button1Text}>{btn}</Text>
+                </TouchableOpacity>
+            </View>
+        );
+    }
 }
 
 async function activation(sid, id) {
@@ -163,7 +314,7 @@ export const objscreen = StyleSheet.create({
         flex: 1,
         flexDirection: 'column'
     },
-    objContTitle:{
+    objContTitle: {
         fontSize: 22,
         textAlign: 'center',
         marginTop: 10,
@@ -171,7 +322,7 @@ export const objscreen = StyleSheet.create({
         fontWeight: 'bold',
         textTransform: 'uppercase'
     },
-    objdesc:{
+    objdesc: {
         textAlign: 'center',
         marginBottom: 15
     },
