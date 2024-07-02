@@ -6,7 +6,6 @@ nearlistRow ->TBD
 mapscreen -> dovrebbe essere completa
 nearlistscreen ->TBD
 profilescreen ->TBD
-virtualobjectscreen ->TBD
 
 styles da copiare in ogni pagine ove necessario
 
