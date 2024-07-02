@@ -53,7 +53,7 @@ export default class CommunicationController {
         return await CommunicationController.genericRequest(endPoint, verb, queryParams, bodyParams);
     }
 
-    static async patchUser(id, sid, name, picture, positionshare) {
+    static async patchUser(sid, id, name, picture, positionshare) {
         const endPoint = "users/" + id;
         const verb = 'PATCH';
         const queryParams = {};
@@ -62,8 +62,8 @@ export default class CommunicationController {
         if (name != null) {
             bodyParams.name = name;
         }
-        if (image != null) {
-            bodyParams.picture = image;
+        if (picture != null) {
+            bodyParams.picture = picture;
         }
         if (positionshare != null) {
             bodyParams.positionshare = positionshare;

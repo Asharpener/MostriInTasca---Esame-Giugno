@@ -1,5 +1,5 @@
-import CommunicationController from "../../services/CommunicationController";
-import StorageManager from "../../services/StorageManager";
+import CommunicationController from "../../CommunicationController";
+import StorageManager from "../../StorageManager";
 
 export async function loadVObjDetails(sid, id) {
     // check if the object is already in the db
