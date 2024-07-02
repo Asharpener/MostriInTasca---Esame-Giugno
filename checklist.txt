@@ -3,9 +3,9 @@ checklist pagine mancanti circa
 nearlist ->TBD
 nearlistRow ->TBD
 
-mapscreen -> dovrebbe essere completa
+mapscreen -> cambiare raggio cerchio quando ho amuleto
 nearlistscreen ->TBD
-profilescreen ->TBD
+profilescreen -> sistemare artefatti immagini default
 
 styles da copiare in ogni pagine ove necessario
 
