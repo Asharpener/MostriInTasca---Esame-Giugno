@@ -13,6 +13,8 @@ import CommunicationController from '../../CommunicationController.jsx';
 export default function VirtualObject({ route }) {
     const { user } = useContext(UserContext);
     const [object, setObject] = useState(null);
+    const [userData, setUserData] = useState(null);
+    const [playableDistance, setPlayableDistance] = useState(100);
     let item = route.params.vobj;
 
     useFocusEffect(
@@ -21,6 +23,24 @@ export default function VirtualObject({ route }) {
                 let thisobject = await NearListRepo.loadVObjDetails(user.sid, item);
                 setObject(thisobject);
             })();
+            if (user != null) {
+                (async () => {
+                    let thisuser = await loadUserDetails(user);
+                    setUserData(thisuser);
+
+                    console.log("ciao" + user.sid, userData?.amulet)
+                    if (userData && userData.amulet != null) {
+                        let thisobj = await VObj.loadVObjDetails(user.sid, userData.amulet);
+                        setPlayableDistance(100+thisobj?.level)
+                    } else {
+                        setPlayableDistance(100)
+                    }
+                }
+                )();
+
+            } else {
+                setPlayableDistance(100)
+            }
         }, [user])
     );
 
@@ -194,7 +214,7 @@ function ObjectAction(props) {
     }
 
     //se la distanza è maggiore di 100 metri, disabilita il bottone
-    if (getDistanceInMeters(location.coords.latitude, location.coords.longitude, props.item.lat, props.item.lon) > 100) {
+    if (getDistanceInMeters(location.coords.latitude, location.coords.longitude, props.item.lat, props.item.lon) > props.playableDistance) {
         return (
             <View>
                 <Text style={objscreen.objdesc}>{text}</Text>
@@ -211,6 +231,18 @@ function ObjectAction(props) {
             </View>
         );
     }
+}
+
+async function loadUserDetails(user) {
+    const response = await CommunicationController.getUserById(user.sid, user.uid)
+        .catch((error) => {
+            console.log("MapScreen - " + error);
+            NewAlert.createAlert("Errore", "Impossibile caricare il profilo utente. Verifica la connessione o riprova più tardi.", [{
+                text: "OK"
+            }]);
+        });
+
+    return response;
 }
 
 async function activation(sid, id) {

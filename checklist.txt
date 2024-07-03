@@ -1,0 +1,1 @@
+attivazione oggetti e lista oggetti -> implementare distanza variabile

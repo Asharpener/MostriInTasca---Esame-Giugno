@@ -44,14 +44,7 @@ export function NearListRow(props) {
                         <ObjectInfo obj={object}></ObjectInfo>
                     )}
                 </View>
-                <View style={nearlist.nlElemLocationCont}>
-                    {object == null ? (
-                        <Text></Text>
-                    ) : (
-                        getDistanceInMeters(location.coords.latitude, location.coords.longitude, item.lat, item.lon) <= 100 ?
-                            <Text>Attivabile</Text> : <Text></Text>
-                    )}
-                </View>
+                
             </View>
         </TouchableOpacity>
     );

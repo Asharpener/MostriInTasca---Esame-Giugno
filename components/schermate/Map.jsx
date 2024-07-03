@@ -28,8 +28,6 @@ export default function Map({ navigation }) {
         </Stack.Navigator>
     );
 }
-/*
-            <Stack.Screen name="VObj" component={VirtualObject} options={{ title: '' }} />*/
 
 function ShowMap({ navigation }) {
     const { location } = useContext(LocationContext);
@@ -70,6 +68,8 @@ function ShowMap({ navigation }) {
                         if (userData && userData.amulet != null) {
                             let thisobj = await VObj.loadVObjDetails(user.sid, userData.amulet);
                             setPlayableDistance(100+thisobj?.level)
+                        } else {
+                            setPlayableDistance(100)
                         }
                     }
                     )();
@@ -126,7 +126,7 @@ function ShowMap({ navigation }) {
                         return null;
                     }
                     return (
-                        <MarkerElement.Player key={index} player={item} sid={user.sid} zIndex={999} />
+                        <MarkerElement.Player key={index} player={item} sid={user.sid} zIndex={150} />
                     );
                 }) : {}}
             </MapView>
