@@ -11,6 +11,7 @@ import { UserContext } from '../../models/UserContext';
 import Player from './Player.jsx';
 import VirtualObject from './VirtualObject.jsx';
 import * as MarkerElement from '../sezioni/Marker.jsx';
+import NearObjectList from './NearObjectList.jsx';
 
 import * as NearListRepo from '../RepoAssist/NearListRepo.jsx';
 
@@ -22,11 +23,11 @@ export default function Map({ navigation }) {
             <Stack.Screen name="Map" component={ShowMap} options={{ headerShown: false }} />
             <Stack.Screen name="Player" component={Player} options={{ title: '' }} />
             <Stack.Screen name="VObj" component={VirtualObject} options={{ title: '' }} />
-            
+            <Stack.Screen name="NearObjectList" component={NearObjectList} options={{ title: 'Oggetti vicini' }} />
         </Stack.Navigator>
     );
 }
-/*<Stack.Screen name="NearList" component={NearList} options={{ title: 'Oggetti vicini' }} />
+/*
             <Stack.Screen name="VObj" component={VirtualObject} options={{ title: '' }} />*/
 
 function ShowMap({navigation}) {
@@ -109,7 +110,7 @@ function ShowMap({navigation}) {
                 }) : {}}
             </MapView>
             <View style={mapscreen.btnCont}>
-                <TouchableOpacity style={[def.button1, mapscreen.nearobjbtn]} onPress={() => navigation.navigate('NearList')}>
+                <TouchableOpacity style={[def.button1, mapscreen.nearobjbtn]} onPress={() => navigation.navigate('NearObjectList')}>
                     <Text style={def.button1Text}>Oggetti vicini</Text>
                 </TouchableOpacity>
             </View>

@@ -33,7 +33,7 @@ export async function loadVObjDetails(sid, vobjInfo) {
 
     if (object.length == 0) {
         // if not, get the object from the server and insert it in the db
-        const response = await CommunicationController.getObject(sid, vobjInfo.id)
+        const response = await CommunicationController.getObjectById(sid, vobjInfo.id)
             .catch((error) => {
                 console.log("NearListRepo - " + error);
             });
