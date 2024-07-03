@@ -12,7 +12,8 @@ import Player from './Player.jsx';
 import VirtualObject from './VirtualObject.jsx';
 import * as MarkerElement from '../sezioni/Marker.jsx';
 import NearObjectList from './NearObjectList.jsx';
-
+import * as VObj from "../RepoAssist/VObjectRepo";
+import CommunicationController from "../../CommunicationController"
 import * as NearListRepo from '../RepoAssist/NearListRepo.jsx';
 
 const Stack = createNativeStackNavigator();
@@ -30,9 +31,11 @@ export default function Map({ navigation }) {
 /*
             <Stack.Screen name="VObj" component={VirtualObject} options={{ title: '' }} />*/
 
-function ShowMap({navigation}) {
+function ShowMap({ navigation }) {
     const { location } = useContext(LocationContext);
+    const [userData, setUserData] = useState(null);
     const { user } = useContext(UserContext);
+    const [playableDistance, setPlayableDistance] = useState(100);
     const [region, setRegion] = useState({
         latitude: 49.5,
         longitude: 0,
@@ -42,21 +45,38 @@ function ShowMap({navigation}) {
 
     const [vobjnearlist, setNearList] = useState([]);
     const [playernearlist, setPlayerNearList] = useState([]);
-    
+
     useFocusEffect(
         React.useCallback(() => {
             if (location != null && user.sid != null) {
 
                 //Async oggetti
                 (async () => {
-                    let data = await  NearListRepo.loadNearList(user.sid, location.coords.latitude, location.coords.longitude);
+                    let data = await NearListRepo.loadNearList(user.sid, location.coords.latitude, location.coords.longitude);
                     setNearList(data);
                 })();
                 //Async player
                 (async () => {
-                    let data = await  NearListRepo.loadPlayers(user.sid, location.coords.latitude, location.coords.longitude);
+                    let data = await NearListRepo.loadPlayers(user.sid, location.coords.latitude, location.coords.longitude);
                     setPlayerNearList(data);
                 })();
+                //Async user
+                if (user != null) {
+                    (async () => {
+                        let thisuser = await loadUserDetails(user);
+                        setUserData(thisuser);
+
+                        console.log("ciao" + user.sid, userData?.amulet)
+                        if (userData && userData.amulet != null) {
+                            let thisobj = await VObj.loadVObjDetails(user.sid, userData.amulet);
+                            setPlayableDistance(100+thisobj?.level)
+                        }
+                    }
+                    )();
+
+                } else {
+                    setPlayableDistance(100)
+                }
                 setRegion({
                     latitude: location.coords.latitude,
                     longitude: location.coords.longitude,
@@ -68,44 +88,45 @@ function ShowMap({navigation}) {
     );
 
     return (
-        <SafeAreaView style={{flex:1, justifyContent: 'flex-end', marginTop:40}}>
-            <MapView style ={mapscreen.map} region={region} showsMyLocationButton={true}
-          showsCompass={true} onRegionCHange={this.handleRegionChanged}>
+        <SafeAreaView style={{ flex: 1, justifyContent: 'flex-end', marginTop: 40 }}>
+            <MapView style={mapscreen.map} region={region} showsMyLocationButton={true}
+                showsCompass={true} onRegionCHange={this.handleRegionChanged}>
 
-                {location != null && 
-                <View>
-                    <Circle center={location.coords} 
-                    radius={100}
-                    strokeWidth={1}
-                    strokeColor={'#1a66ff'}
-                    fillColor={'rgba(230,238,255,0.5)'}
-                    />
-                    <Marker coordinate={location.coords} />
-            
-                </View>
+                {location != null &&
+                    <View>
+                        <Circle center={location.coords}
+                            radius={playableDistance}
+                            strokeWidth={1}
+                            strokeColor={'#1a66ff'}
+                            fillColor={'rgba(230,238,255,0.5)'}
+
+                        />
+                        <Marker coordinate={location.coords} zIndex={999} />
+
+                    </View>
                 }
 
                 {vobjnearlist != [] && vobjnearlist != undefined ? vobjnearlist.map((item, index) => {
                     // calcola la distanza dalla posizione attuale location e l'oggetto item
-                    let distance =  MarkerElement.getDistanceInMeters(location.coords.latitude, location.coords.longitude, item.lat, item.lon);
+                    let distance = MarkerElement.getDistanceInMeters(location.coords.latitude, location.coords.longitude, item.lat, item.lon);
                     // se la distanza è minore di 100 metri, visualizza l'oggetto
-                    if (distance > 100) {
+                    if (distance > playableDistance) {
                         return null;
                     }
                     return (
-                        <MarkerElement.Virtualobj key={index} object={item} sid={user.sid} />
+                        <MarkerElement.Virtualobj key={index} object={item} sid={user.sid} zIndex={999} />
                     );
                 }) : {}}
 
                 {playernearlist != [] && playernearlist != undefined ? playernearlist.map((item, index) => {
                     // calcola la distanza dalla posizione attuale location e l'oggetto item
-                    let distance =  MarkerElement.getDistanceInMeters(location.coords.latitude, location.coords.longitude, item.lat, item.lon);
+                    let distance = MarkerElement.getDistanceInMeters(location.coords.latitude, location.coords.longitude, item.lat, item.lon);
                     // se la distanza è minore di 100 metri, visualizza l'oggetto
-                    if (distance > 100 || item.positionshare == false) {
+                    if (distance > playableDistance || item.positionshare == false) {
                         return null;
-                    } 
+                    }
                     return (
-                        <MarkerElement.Player key={index} player={item} sid={user.sid} />
+                        <MarkerElement.Player key={index} player={item} sid={user.sid} zIndex={999} />
                     );
                 }) : {}}
             </MapView>
@@ -117,8 +138,19 @@ function ShowMap({navigation}) {
         </SafeAreaView>
     );
 
-} 
+}
 
+async function loadUserDetails(user) {
+    const response = await CommunicationController.getUserById(user.sid, user.uid)
+        .catch((error) => {
+            console.log("MapScreen - " + error);
+            NewAlert.createAlert("Errore", "Impossibile caricare il profilo utente. Verifica la connessione o riprova più tardi.", [{
+                text: "OK"
+            }]);
+        });
+
+    return response;
+}
 
 
 export const mapscreen = StyleSheet.create({
@@ -131,10 +163,10 @@ export const mapscreen = StyleSheet.create({
         justifyContent: 'center',
         marginBottom: 10
     },
-    map:  {
+    map: {
         zIndex: -1,
         ...StyleSheet.absoluteFillObject,
-    
+
     }
 });
 
