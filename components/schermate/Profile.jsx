@@ -333,7 +333,7 @@ function ObjectImage(props) {
     if (obj == null) {
         return (
             <View>
-                <Image source={require("../../assets/images/default_amulet.png")} style={profilescreen.objElemImg} />
+                <Image source={require("../../assets/adaptive-icon.png")} style={profilescreen.objElemImg} />
             </View>
         );
     } else {

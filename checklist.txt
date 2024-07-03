@@ -5,7 +5,6 @@ nearlistRow ->TBD
 
 mapscreen -> cambiare raggio cerchio quando ho amuleto
 nearlistscreen ->TBD
-profilescreen -> sistemare artefatti immagini default
 
 styles da copiare in ogni pagine ove necessario
 
