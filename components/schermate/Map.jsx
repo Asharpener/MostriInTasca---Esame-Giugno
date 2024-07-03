@@ -68,7 +68,7 @@ function ShowMap({navigation}) {
 
     return (
         <SafeAreaView style={{flex:1, justifyContent: 'flex-end', marginTop:40}}>
-            <MapView style ={mapscreen.map} region={region} showsUserLocation={true} showsMyLocationButton={true}
+            <MapView style ={mapscreen.map} region={region} showsMyLocationButton={true}
           showsCompass={true} onRegionCHange={this.handleRegionChanged}>
 
                 {location != null && 
