@@ -19,6 +19,7 @@ import { UserContext } from './models/UserContext.jsx';
 import MapScreen from './components/schermate/Map.jsx';
 import RankingScreen from './components/schermate/Ranking.jsx';
 import ProfileScreen from './components/schermate/Profile.jsx';
+import StarList from './components/schermate/StarList.jsx';
 
 const Tab = createBottomTabNavigator();
 
@@ -103,6 +104,9 @@ export default function App() {
                     case 'Profilo':
                       iconName = focused ? 'person' : 'person-outline';
                       break;
+                    case 'Stelle':
+                      iconName = focused ? 'star' : 'star-outline';
+                      break;
                   }
                   // You can return any component that you like here!
                   return <Ionicons name={iconName} size={size} color={color} />;
@@ -123,6 +127,7 @@ export default function App() {
               <Tab.Screen name="Classifica" initialParams={{ user: user }} component={RankingScreen} options={{ title: 'Classifica', headerShown: false }} />
               <Tab.Screen name="Mappa" initialParams={{ user: user }} component={MapScreen} options={{ headerShown: false }} />
               <Tab.Screen name="Profilo" initialParams={{ user: user }} component={ProfileScreen} options={{ headerShown: false }} />
+              <Tab.Screen name="Stelle" initialParams={{ user: user }} component={StarList} options={{ title: 'Stelle', headerShown: false }} />
             </Tab.Navigator>
           </NavigationContainer>
         </SafeAreaProvider>

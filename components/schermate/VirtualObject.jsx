@@ -197,6 +197,34 @@ function ObjectAction(props) {
                 })();
             };
             break;
+            case "star":
+                text = "Equipaggiati con una stella. Con questa stella aumenterai i tuoi punti esperienza di " + obj.level + "exp.";
+                btn = "Equipaggia";
+                event = () => {
+                    (async () => {
+                        let action = await activation(user.sid, obj.id);
+                        console.log(action.died);
+                        if (action == false) {
+                            alertMex = "Errore";
+                            alertText = "Si è verificato un errore. Verifica la tua connessione";
+                        } else {
+                            alertMex = "Stella equipaggiata!";
+                            alertText = "Ora hai " + action.life + " punti vita!" + action.experience + " punti esperienza";
+                            console.log("Stella equipaggiata! id: " + obj.id)
+                            
+                            if (obj.activated == false) {
+                                NearListRepo.toggleStar(user.sid, obj.id);
+                            }
+                        }
+                        Alert.createAlert(alertMex, alertText, [{
+                            text: "OK", onPress: () => {
+                                navigation.navigate('Map');
+                            }
+                        }]);
+    
+                    })();
+                };
+                break;
         default:
             text = "Attiva questo oggetto per sfruttare le sue potenzialità."
             btn = "Attiva";
@@ -221,6 +249,14 @@ function ObjectAction(props) {
                 <Text>Questo oggetto è troppo lontano. Avvicinati per attivaarlo</Text>
             </View>
         );
+/*
+    }else if (obj.collected == true{
+        return (
+            <View>
+                <Text style={objscreen.objdesc}>{text}</Text>
+                <Text>Questo mostro è già stato sconfitto,c ercane un altro. </Text>
+            </View>
+        );*/  // per collection 
     } else {
         return (
             <View>
@@ -252,6 +288,7 @@ async function activation(sid, id) {
             return false;
         });
     return response;
+    
 }
 
 export function getDistanceInMeters(lat1, lon1, lat2, lon2) {
@@ -362,7 +399,7 @@ export const objscreen = StyleSheet.create({
         flex: 4,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#38b6ff'
+        backgroundColor: '#ADD7F6'
     },
     objActiveBtn: {
         textTransform: 'uppercase',

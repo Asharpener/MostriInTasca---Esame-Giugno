@@ -89,7 +89,7 @@ export default class CommunicationController {
     }
 
     static async activateObject(sid, id) {
-        const endPoint = "objects/"+id+"/activate";	
+        const endPoint = "objects/"+id+"/activate4";	
         const verb = 'POST';
         const queryParams = {};
         const bodyParams = {sid: sid};
@@ -97,7 +97,7 @@ export default class CommunicationController {
     }
     
     static async getObjects(sid, lat, lon) {
-        const endPoint = "objects/";
+        const endPoint = "objects3/";
         const verb = 'GET';
         const queryParams = { sid: sid, lat: lat, lon: lon };
         const bodyParams = {};

@@ -22,6 +22,10 @@ export function NearListRow(props) {
                 console.log("NearListElement - " + item.id);
                 let thisobj = await NearListRepo.loadVObjDetails(user.sid, item)
                 console.log("NearListElement - " + thisobj.name);
+                /*
+                esame febbraio collected
+                let thisobj = await NearListRepo.
+                */
                 setObject(thisobj);
             })();
         }, [user])
@@ -44,7 +48,7 @@ export function NearListRow(props) {
                         <ObjectInfo obj={object}></ObjectInfo>
                     )}
                 </View>
-                
+
             </View>
         </TouchableOpacity>
     );
@@ -96,7 +100,9 @@ function ObjectInfo(props) {
         case "candy":
             objtype = "Caramella";
             break;
-
+        case "star":
+            objtype = "Stella stellina";
+            break;
         default:
             objtype = "Oggetto";
             break;
@@ -129,7 +135,9 @@ function ObjectImage(props) {
             case "candy":
                 pic = require("../../assets/images/default_candy.png");
                 break;
-
+            case "star":
+                pic = require("../../assets/images/default_star.png");
+                break;
             default:
                 pic = require("../../assets/adaptive-icon.png");
                 break;

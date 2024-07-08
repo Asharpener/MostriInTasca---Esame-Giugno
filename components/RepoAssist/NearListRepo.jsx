@@ -49,8 +49,28 @@ export async function loadVObjDetails(sid, vobjInfo) {
     } else {
         // if yes, return the object
         return object[0];
+        
     }
 }
+
+export async function loadStarList() {
+    const storageManager = new StorageManager();
+    let objects = await storageManager.getStarObjects()
+        .catch((error) => {
+            console.log("No star objects found - " + error)
+        });
+    return objects;
+} 
+
+export async function toggleStar(sid, id) {
+    const storageManager = new StorageManager();
+    let object = await storageManager.updateStarObject(id)
+        .catch((error) => {
+            console.log("Nessun oggetto trovato con id " + id + " - " + error);
+        });
+    return 1;
+}
+
 
 export async function loadPlayers(sid, lat, lon) {
     const response = await CommunicationController.getUsers(sid, lat, lon).catch((error) => {
@@ -85,17 +105,17 @@ export async function loadPlayerDetails(sid, playerInfo) {
         }
     } else {
         // if yes, check the profile version for the user
-        
+
         user = player[0];
-        
+
         if (user.profileversion != playerInfo.profileversion) {
             // if the profile version is different from the one in the db, get the user from the server and update it in the db
-            
+
             const response = await CommunicationController.getUserById(sid, playerInfo.uid)
-            .catch((error) => {
-                console.log("RankElem - " + error);
-            });
-            
+                .catch((error) => {
+                    console.log("RankElem - " + error);
+                });
+
             let row = await storageManager.updateUser(response.uid, response.name, response.picture, response.profileversion);
 
             if (row[0].error != null || row[0].rowsAffected == 0) {

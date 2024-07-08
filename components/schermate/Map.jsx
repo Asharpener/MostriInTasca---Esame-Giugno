@@ -13,6 +13,7 @@ import VirtualObject from './VirtualObject.jsx';
 import * as MarkerElement from '../sezioni/Marker.jsx';
 import NearObjectList from './NearObjectList.jsx';
 import * as VObj from "../RepoAssist/VObjectRepo";
+import StarList from './StarList.jsx';  
 import CommunicationController from "../../CommunicationController"
 import * as NearListRepo from '../RepoAssist/NearListRepo.jsx';
 
@@ -25,6 +26,8 @@ export default function Map({ navigation }) {
             <Stack.Screen name="Player" component={Player} options={{ title: '' }} />
             <Stack.Screen name="VObj" component={VirtualObject} options={{ title: '' }} />
             <Stack.Screen name="NearObjectList" component={NearObjectList} options={{ title: 'Oggetti vicini' }} />
+            <Stack.Screen name="StarList" component={StarList} options={{ title: 'Stelle collezionate' }} />
+            
         </Stack.Navigator>
     );
 }

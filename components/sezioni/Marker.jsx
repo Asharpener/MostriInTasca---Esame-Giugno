@@ -17,6 +17,9 @@ export function Virtualobj(props) {
             (async () => {console.log("Marker - " + nlObjectInfo.id);
                 let thisobj = await NearListRepo.loadVObjDetails(sid, nlObjectInfo);
                 setObject(thisobj)
+                if (thisobj.type == "star") {
+                    console.log("Star con id: " + thisobj.id);
+                }
             })();
         }, [sid])
     );
@@ -102,6 +105,9 @@ function ObjectImage(props) {
                 break;
             case "candy":
                 pic = require("../../assets/images/default_candy.png");
+                break;
+            case "star":
+                pic = require("../../assets/images/default_star.png");
                 break;
 
             default:

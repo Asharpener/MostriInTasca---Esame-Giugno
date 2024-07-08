@@ -58,10 +58,28 @@ export default class StorageManager {
 
     // Table create
     async createTableOggetti() {
-        const querySQL = "CREATE TABLE IF NOT EXISTS oggetti (id INTEGER PRIMARY KEY, type VARCHAR(100), image TEXT, name VARCHAR(100), level INTEGER)";
-        const query = { args: [], sql: querySQL }
-        const result = await this.db.execAsync([query], false)
-        return result
+        const querySQL = "CREATE TABLE IF NOT EXISTS oggetti (id INTEGER PRIMARY KEY, type VARCHAR(100), image TEXT, name VARCHAR(100), level INTEGER, activated BOOLEAN DEFAULT 0)";
+        const query = { args: [], sql: querySQL };
+        const result = await this.db.execAsync([query], false);
+        return result;
+    }
+
+    // Update table - STAR
+    async updateStarObject(id) {
+        const querySQL = "UPDATE oggetti SET activated = true WHERE id = ?";
+        const query = { args: [id], sql: querySQL };
+        const result = await this.db.execAsync([query], false);
+        console.log("Esame giugno, Stella salvata nel db. ID: " +  id);
+        return result;
+    }
+
+    //STAR
+    async getStarObjects() {
+        const querySQL = "SELECT * FROM oggetti WHERE type = 'star' AND activated = true";
+        const query = { args: [], sql: querySQL };
+        const result = await this.db.execAsync([query], false);
+      
+        return result[0].rows;
     }
 
     // INSERT
